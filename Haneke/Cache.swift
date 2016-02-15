@@ -99,6 +99,22 @@ public class Cache<T: DataConvertible where T.Result == T, T : DataRepresentable
         return fetch
     }
     
+    // dgm added
+    public func memoryCache(formatName: String = HanekeGlobals.Cache.OriginalFormatName) -> NSCache? {
+        if let (_, memoryCache, _) = self.formats[formatName] {
+            return memoryCache
+        }
+        return nil
+    }
+    
+    // dgm added
+    public func diskCache(formatName: String = HanekeGlobals.Cache.OriginalFormatName) -> DiskCache? {
+        if let (_, _, diskCache) = self.formats[formatName] {
+            return diskCache
+        }
+        return nil
+    }
+    
     public func fetch(fetcher fetcher : Fetcher<T>, formatName: String = HanekeGlobals.Cache.OriginalFormatName, failure fail : Fetch<T>.Failer? = nil, success succeed : Fetch<T>.Succeeder? = nil) -> Fetch<T> {
         let key = fetcher.key
         let fetch = Cache.buildFetch(failure: fail, success: succeed)
